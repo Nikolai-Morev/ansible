@@ -1,0 +1,8 @@
+- hosts: test1
+  become: True
+  become_method: sudo
+  roles:
+    - ./roles/repository
+    - ./roles/update-system
+    - ./roles/time-synchronization
+    - ./roles/postgresqlpro

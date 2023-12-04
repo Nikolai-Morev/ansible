@@ -1,0 +1,34 @@
+---
+    # Скачиваем файл установки репозитория postgres pro {{ version }}
+    - name: Downloading a file to install the postgresql pro repository version {{ version }}
+      get_url:
+        url: https://repo.postgrespro.ru/1c-{{ version }}/keys/pgpro-repo-add.sh
+        dest: /tmp/pgpro-repo-add.sh
+        mode: '0700'
+
+   # Устанавливаем репозиторий postgres pro {{ version }}
+    - name: Install the postgresql pro repository version {{ version }}
+      shell: /tmp/pgpro-repo-add.sh
+
+    # Обновляем все пакеты с помощью модуля apt
+    - name: Update apt repo and cache on all Debian/Ubuntu boxes
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    # Обновляем все пакеты
+    - name: Upgrade all packages on servers
+      apt:
+        upgrade: dist
+        force_apt_get: yes
+
+    # Устанавливаем пакет postgres pro, запускаем , добавляем в автозагрузку
+    - name: Install postgresql pro
+      apt:
+        name: postgrespro-1c-{{ version }}
+        state: present
+        update_cache: yes
+      notify:
+        - Start postgrespro
+        - Enable postgrespro

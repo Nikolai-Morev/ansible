@@ -1,0 +1,19 @@
+- name: Restart postgrespro
+  service:
+    name: postgrespro-1c-{{ version }}
+    state: restarted
+
+- name: Start postgrespro
+  service:
+    name: postgrespro-1c-{{ version }}
+    state: started
+
+- name: Stop postgrespro
+  service:
+    name: postgrespro-1c-{{ version }}
+    state: stopped
+
+- name: Enable postgrespro
+  service:
+    name: postgrespro-1c-{{ version }}
+    enabled: yes
